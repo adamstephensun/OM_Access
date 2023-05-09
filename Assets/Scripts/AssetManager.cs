@@ -12,7 +12,6 @@ public class AssetManager : MonoBehaviour
         public AudioClip audioDescRec;
         public AudioClip QandARec;
         public AudioClip bio;
-        public VideoPlayer videoPlayer;
     }
 
     public WorkAssets[] assetList;

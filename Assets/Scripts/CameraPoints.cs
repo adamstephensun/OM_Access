@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CameraPoints : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class CameraPoints : MonoBehaviour
         transform.position = cameraPoints[0].position;
         transform.rotation = cameraPoints[0].rotation;
         slerpActive = false;
+
     }
 
     // Update is called once per frame
@@ -36,17 +38,27 @@ public class CameraPoints : MonoBehaviour
         if(!slerpActive){
 
             if(Input.GetKeyDown(KeyCode.RightArrow)){
-                MoveRight();
+                RightArrowPressed();
             }
 
             if(Input.GetKeyDown(KeyCode.LeftArrow)){
-                MoveLeft();
+                LeftArrowPressed();
             }
         }
         else{
             //Debug.Log("Slerp in progress");
         }
 
+    }
+
+    public void RightArrowPressed(){
+        if(currentPosIndex == 0) MoveRight();
+        else MoveLeft();
+    }
+
+    public void LeftArrowPressed(){
+        if(currentPosIndex == 0) MoveLeft();
+        else MoveRight();
     }
 
     public void MoveRight(){
