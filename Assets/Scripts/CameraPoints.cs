@@ -11,6 +11,8 @@ public class CameraPoints : MonoBehaviour
     public int currentPosIndex;
     public float slerpDuration;
 
+    public bool controlsActive = false;
+
     Vector3 slerpTarget;
 
     int numOfPoints;
@@ -35,20 +37,20 @@ public class CameraPoints : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!slerpActive){
+        if(controlsActive){
+            if(!slerpActive){
+                if(Input.GetKeyDown(KeyCode.RightArrow)){
+                    RightArrowPressed();
+                }
 
-            if(Input.GetKeyDown(KeyCode.RightArrow)){
-                RightArrowPressed();
+                if(Input.GetKeyDown(KeyCode.LeftArrow)){
+                    LeftArrowPressed();
+                }
             }
-
-            if(Input.GetKeyDown(KeyCode.LeftArrow)){
-                LeftArrowPressed();
+            else{
+                //Debug.Log("Slerp in progress");
             }
         }
-        else{
-            //Debug.Log("Slerp in progress");
-        }
-
     }
 
     public void RightArrowPressed(){
@@ -68,7 +70,7 @@ public class CameraPoints : MonoBehaviour
                 currentPosIndex = 0;
             }
             mediaController.MovedIndex();
-            Debug.Log("Lerping forward to point: " + currentPosIndex);
+            //Debug.Log("Lerping forward to point: " + currentPosIndex);
             StartCoroutine(LerpToPoint(cameraPoints[currentPosIndex]));
         }
     }
@@ -80,9 +82,17 @@ public class CameraPoints : MonoBehaviour
                 currentPosIndex = numOfPoints - 1;
             }
             mediaController.MovedIndex();
-            Debug.Log("Lerping back to point: " + currentPosIndex);
+            //Debug.Log("Lerping back to point: " + currentPosIndex);
             StartCoroutine(LerpToPoint(cameraPoints[currentPosIndex]));
         }
+    }
+
+    public void EnableControls(){
+        controlsActive = true;
+    }
+
+    public void DisableControls(){
+        controlsActive = false;
     }
 
     IEnumerator LerpToPoint(Transform target){

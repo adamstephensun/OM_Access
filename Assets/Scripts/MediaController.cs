@@ -6,17 +6,23 @@ using TMPro;
 
 public class MediaController : MonoBehaviour
 {
+    [Header("GameObject references")]
     public CameraPoints camPoints;
-    
+    public BSLController bslController;
     public AudioPlayer audioPlayer;
+    public AudioSource[] audioSources;
 
+    [Header("Controls UI")]
     public GameObject aControls;
     public GameObject bControls;
     public GameObject iControls;
     public GameObject qControls;
 
-    public AudioSource[] audioSources;
+    [Header("Clips")]
+    public List<AudioClip> clipList = new List<AudioClip>();
+    public List<string> clipNames = new List<string>();
 
+    [Header("Vars")]
     [Range(0f,1f)] public float lowVolume;
     [Range(0f,1f)] public float highVolume;
 
@@ -24,15 +30,13 @@ public class MediaController : MonoBehaviour
 
     int currentIndex;       // Current position in space (0 = entrance, 1 = Khush, 2 = Les, etc.)
     bool runthroughMode = false;
+    bool bslEnabled = true;
 
-    string currentName;
-    AudioClip currentInfo;
-    AudioClip currentDescription;
-    AudioClip currentQA;
-    AudioClip currentBio;
-
-    public List<AudioClip> clipList = new List<AudioClip>();
-    public List<string> clipNames = new List<string>();
+    public string currentName;
+    public AudioClip currentInfo;
+    public AudioClip currentDescription;
+    public AudioClip currentQA;
+    public AudioClip currentBio;
 
     void Start(){
         assets = GetComponent<AssetManager>();
@@ -43,9 +47,9 @@ public class MediaController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.R)){
             // full run-through mode
-            runthroughMode = true;
-            audioPlayer.isRunthrough = runthroughMode;
-            SendList();
+            //runthroughMode = true;
+            //audioPlayer.isRunthrough = runthroughMode;
+            //SendList();
         }
 
         if(!runthroughMode){        // normal keybinds for when not in run-through mode
@@ -65,19 +69,12 @@ public class MediaController : MonoBehaviour
                 // Play info board recording
                 audioPlayer.UpdateCurrentPlaying(currentInfo, currentName + " info board");
             }
-            if(Input.GetKeyDown(KeyCode.Q)){
-                // Play Q&A recording
-                audioPlayer.UpdateCurrentPlaying(currentQA, currentName + " Q & A");
-            }
-            if(Input.GetKeyDown(KeyCode.M)){
-                // Play media (depends on artwork) Probably get rid of this and have it playing on loop
-
-            }
         }
         
     }
 
     public void MovedIndex(){
+        Debug.Log("Moved index");
         // called when arrow key is pressed and current index is changed in CameraPoints.cs
         currentIndex = camPoints.currentPosIndex;
 
@@ -99,11 +96,14 @@ public class MediaController : MonoBehaviour
 
         lowerAllVideoSources();
         increaseCurrentSource(); // then set the current source to high volume
+
+        bslController.ChangeBSLVideo(currentIndex);
     }
 
     public void SendList(){
         clipList.Clear();
         clipNames.Clear();
+
         if(currentBio != null){
             clipList.Add(currentBio);
             clipNames.Add(currentName + " bio");

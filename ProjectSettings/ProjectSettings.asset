@@ -450,7 +450,7 @@ PlayerSettings:
   - m_BuildTarget: tvOS
     m_EncodingQuality: 1
   - m_BuildTarget: WebGL
-    m_EncodingQuality: 1
+    m_EncodingQuality: 0
   m_BuildTargetGroupLightmapSettings: []
   m_BuildTargetNormalMapEncoding:
   - m_BuildTarget: Android
@@ -694,7 +694,7 @@ PlayerSettings:
   blurSplashScreenBackground: 1
   spritePackerPolicy: 
   webGLMemorySize: 16
-  webGLExceptionSupport: 1
+  webGLExceptionSupport: 0
   webGLNameFilesAsHashes: 0
   webGLDataCaching: 1
   webGLDebugSymbols: 0

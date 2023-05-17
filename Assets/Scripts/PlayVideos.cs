@@ -12,36 +12,43 @@ public class PlayVideos : MonoBehaviour
     public VideoPlayer khush;
     public VideoPlayer les;
     public VideoPlayer martin;
+    public VideoPlayer martinCube;
 
     [Header("File hosting names")]
-    public string khushName;
-    public string lesName;
-    public string martinName;
-
-    public string filePrefix;
-    public string fileSuffix;
+    public string khushURL;
+    public string lesURL;
+    public string martinURL;
+    public string martinCubeURL;
 
     bool hasStarted = false;
 
     void Start()
     {
+        khush.url = khushURL;
+        les.url = lesURL;
+        martin.url = martinURL;
+        martinCube.url = martinCubeURL;
+
+        khush.Prepare();
+        les.Prepare();
+        martin.Prepare();
+        martinCube.Prepare();
+
         if(playOnStart){
             StartCoroutine(WaitThenPlay());
         }
 
-        //khush.url = filePrefix + khushName + fileSuffix;
-        //les.url = filePrefix + lesName + fileSuffix;
-        //martin.url = filePrefix + martinName + fileSuffix;
     }
 
     void Update()
     {
         if(!hasStarted){
-            if(Input.anyKey){
+            if(Input.anyKey && khush.isPrepared && les.isPrepared && martin.isPrepared){
                 Debug.Log("Starting videos");
                 khush.Play();
                 les.Play();
                 martin.Play();
+                martinCube.Play();
                 hasStarted = true;
             }
         }
@@ -52,5 +59,6 @@ public class PlayVideos : MonoBehaviour
         khush.Play();
         les.Play();
         martin.Play();
+        martinCube.Play();
     }
 }
